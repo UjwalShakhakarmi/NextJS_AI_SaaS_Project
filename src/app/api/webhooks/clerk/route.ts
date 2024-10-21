@@ -89,6 +89,9 @@ export async function POST(req: Request) {
       username: username ?? "",
       photo: image_url ?? "",
     };
+    if (!id) {
+      return new Response("Missing Clerk user ID", { status: 400 });
+    }
 
     const updatedUser = await updateUser(id, user);
 
@@ -97,6 +100,9 @@ export async function POST(req: Request) {
 
   // DELETE
   if (eventType === "user.deleted") {
+    if (!id) {
+      return new Response("Missing Clerk user ID", { status: 400 });
+    }
     const deletedUser = await deleteUser(id);
 
     return NextResponse.json({ message: "OK", user: deletedUser });
