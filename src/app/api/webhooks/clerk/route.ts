@@ -14,7 +14,6 @@ export async function POST(req: Request) {
     );
   }
 
-  // Get the headers
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
@@ -26,11 +25,8 @@ export async function POST(req: Request) {
     });
   }
 
-  // Get the body
   const payload = await req.json();
   const body = JSON.stringify(payload);
-
-  // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
@@ -56,8 +52,13 @@ export async function POST(req: Request) {
     const { email_addresses, image_url, first_name, last_name, username } =
       evt.data;
 
+    // Ensure that clerkId is not undefined
+    if (!id) {
+      return new Response("Missing Clerk user ID", { status: 400 });
+    }
+
     const user = {
-      clerkId: id,
+      clerkId: id, // Ensure clerkId is always a string
       email: email_addresses[0].email_address,
       username: username ?? "", // Fallback to empty string if null
       firstName: first_name ?? "", // Fallback to empty string if null
