@@ -2,7 +2,7 @@ import qs from "qs";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-// import { aspectRatioOptions } from "../../constants";
+import { aspectRatioOptions } from "../../constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -92,7 +92,7 @@ export const formUrlQuery = ({
 // };
 
 // GE IMAGE SIZE
-// export type AspectRatioKey = keyof typeof aspectRatioOptions;
+export type AspectRatioKey = keyof typeof aspectRatioOptions;
 // export const getImageSize = (
 //   type: string,
 //   image: any,
